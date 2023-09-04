@@ -1,31 +1,30 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 
-class Role extends Model {
-  // public empId!: number;
-  // public empName!: string;
-  // public salary!: number;
-  // public createdAt!: Date;
-  // public updatedAt!: Date;
+class Language extends Model {
+ 
 }
 
-Role.init(
+Language.init(
   {
-    id: {
+    languageId : {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    roleId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: false,
-      },
-    roleName: {
+   
+    languageName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    languageObj: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+      languageImage: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     dateCreated: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -37,10 +36,10 @@ Role.init(
   },
   {
     sequelize,
-    tableName: 'role',
-    modelName: 'role',
+    tableName: 'languages',
+    modelName: 'language',
     timestamps: false,
   }
 );
 
-export default Role;
+export default Language;
