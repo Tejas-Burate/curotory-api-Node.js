@@ -1,53 +1,39 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 
-class Plan extends Model {
- 
+class Video extends Model {
+
 }
 
-Plan.init(
+Video.init(
   {
-    planId  : {
+    videoId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    languageId  : {
+    languageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
-    planName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    planSubtitle: {
+      levelId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      lessonId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      videoName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-
-      planPrice  : {
-        type: DataTypes.DECIMAL(),
+      videoThumbnail: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-
-      planDuration  : {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-
-      planDesc: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-
-      status: {
-        type: DataTypes.ENUM('Active', 'Deactive'),
-        allowNull: false,
-      },
-
-      isLivePlan: {
-        type: DataTypes.INTEGER,
+      videoFileName: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     dateCreated: {
@@ -61,10 +47,10 @@ Plan.init(
   },
   {
     sequelize,
-    tableName: 'plans',
-    modelName: 'plan',
+    tableName: 'videos',
+    modelName: 'video',
     timestamps: false,
   }
 );
 
-export default Plan;
+export default Video;

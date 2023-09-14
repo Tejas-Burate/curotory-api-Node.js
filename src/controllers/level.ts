@@ -47,9 +47,10 @@ const createLevel = async(req:Request, res:Response) =>{
 
 const getLevelsByLevelId = async(req:Request, res:Response) => {
     try {
-        const id = req.params.id;
+        const id = req.body.userId;
+        console.log('id', id)
         const level = await Level.findAll({
-            where:{levelId: id},
+            where:{languageId: id},
     });
         if(!level){
             res.status(400).json({status:400,error:400,message:"Level of given id is not found"});

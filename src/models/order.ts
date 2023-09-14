@@ -1,53 +1,51 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 
-class Plan extends Model {
+class Order extends Model {
  
 }
 
-Plan.init(
+Order.init(
   {
-    planId  : {
+    orderId  : {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    languageId  : {
+    userId  : {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-
-    planName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    planSubtitle: {
-        type: DataTypes.STRING,
+      planId  : {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-
-      planPrice  : {
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    totalAmount  : {
         type: DataTypes.DECIMAL(),
         allowNull: false,
       },
-
-      planDuration  : {
-        type: DataTypes.INTEGER,
+      currency: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-
-      planDesc: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-
       status: {
-        type: DataTypes.ENUM('Active', 'Deactive'),
+        type: DataTypes.ENUM("created","authorized","captured","refund","failed","paid","started"),
         allowNull: false,
       },
-
-      isLivePlan: {
-        type: DataTypes.INTEGER,
+      rPaymentId  : {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      rOrderId  : {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      rSignature  : {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     dateCreated: {
@@ -61,10 +59,10 @@ Plan.init(
   },
   {
     sequelize,
-    tableName: 'plans',
-    modelName: 'plan',
+    tableName: 'orders',
+    modelName: 'order',
     timestamps: false,
   }
 );
 
-export default Plan;
+export default Order;
