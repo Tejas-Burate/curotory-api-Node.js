@@ -14,6 +14,8 @@ import videoRoutes from "./routes/vedio";
 import questionRoutes from "./routes/question";
 import moduleRoutes from "./routes/module";
 import testRoutes from "./routes/test";
+import meetingRoutes from "./routes/meeting";
+import liveTestRoutes from "./routes/liveTest";
 
 const app = express();
 
@@ -39,6 +41,8 @@ app.use("/", videoRoutes);
 app.use("/", questionRoutes);
 app.use("/", moduleRoutes);
 app.use("/", testRoutes);
+app.use("/", meetingRoutes);
+app.use("/", liveTestRoutes);
 
 const port = process.env.PORT || 8000;
 
