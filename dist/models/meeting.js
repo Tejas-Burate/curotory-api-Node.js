@@ -5,22 +5,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
-class Role extends sequelize_1.Model {
+class Meeting extends sequelize_1.Model {
 }
-Role.init({
-    id: {
+Meeting.init({
+    meetingId: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    roleId: {
-        type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: false,
-    },
-    roleName: {
+    users: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    languageId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    meetingTitle: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    meetingStartDate: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: false,
+    },
+    meetingEndDate: {
+        type: sequelize_1.DataTypes.DATE,
         allowNull: false,
     },
     dateCreated: {
@@ -33,8 +43,8 @@ Role.init({
     },
 }, {
     sequelize: db_1.default,
-    tableName: 'role',
-    modelName: 'role',
+    tableName: "meetings",
+    modelName: "meeting",
     timestamps: false,
 });
-exports.default = Role;
+exports.default = Meeting;

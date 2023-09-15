@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadImage = exports.upload = exports.getDropdownLanguageList = exports.getAllLanguageList = void 0;
+exports.createLanguage = exports.uploadImage = exports.upload = exports.getDropdownLanguageList = exports.getAllLanguageList = void 0;
 const language_1 = __importDefault(require("../models/language"));
 const multer_1 = __importDefault(require("multer"));
+const tz_1 = require("../config/tz");
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/images/language');
@@ -49,6 +50,39 @@ const uploadImage = (req, res) => {
     }
 };
 exports.uploadImage = uploadImage;
+const createLanguage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const requestData = req.body;
+    console.log('requestData', requestData);
+    const date = (0, tz_1.currentDateTime)();
+    console.log('date == ', date);
+    try {
+        const languageData = yield language_1.default.build({
+            languageName: requestData.name,
+            languageObj: {
+                languageMeetingImage: requestData.languageMeetingImage,
+                languageFlagImage: requestData.languageFlagImage,
+                languageSubscriptionImage: requestData.languageSubscriptionImage,
+                languageLevelImage: requestData.languageLevelImage,
+                languageHomeImage: requestData.languageHomeImage
+            },
+            languageImage: requestData.languageHomeImage,
+            dateCreated: 1693565702822,
+            dateModified: date,
+        });
+        console.log("Before IF CON =  ", (0, tz_1.currentDateTime)());
+        if (!languageData) {
+            res.status(400).json({ status: 400, error: "400", message: "Unable to create language" });
+            return;
+        }
+        yield languageData.save();
+        res.status(200).json(languageData);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: 500, error: "500", message: "Internal Server Error" });
+    }
+});
+exports.createLanguage = createLanguage;
 const getAllLanguageList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const languageData = yield language_1.default.findAll();
@@ -60,9 +94,9 @@ const getAllLanguageList = (req, res) => __awaiter(void 0, void 0, void 0, funct
             languageList.push({
                 languageId: language.languageId,
                 languageName: language.languageName,
-                languageObj: JSON.parse(language.languageObj), // Convert string to JSON
-                // dateCreated: language.dateCreated,
-                // dateModified: language.dateModified
+                languageObj: JSON.parse(language.languageObj),
+                dateCreated: language.dateCreated,
+                dateModified: language.dateModified
             });
         });
         res.status(200).json(languageList);

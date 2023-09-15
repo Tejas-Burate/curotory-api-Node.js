@@ -27,8 +27,6 @@ console.log(currentDateTime());
 app.use(express.json());
 app.use(express.static("public"));
 
-// const timestamp = 1693560172596;
-
 //Routes
 app.use("/employee", employeeRoutes);
 app.use("/", roleRoutes);

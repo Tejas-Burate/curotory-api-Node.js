@@ -9,4 +9,5 @@ const router = express_1.default.Router();
 router.get('/getAllLanguageList', langauge_1.getAllLanguageList);
 router.get('/getDropdownLanguageList', langauge_1.getDropdownLanguageList);
 router.post('/uploadImage', langauge_1.upload.array('imageFile'), langauge_1.uploadImage);
+router.post('/createLanguage', langauge_1.createLanguage);
 exports.default = router;

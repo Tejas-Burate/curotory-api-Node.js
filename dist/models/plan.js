@@ -5,22 +5,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
-class Role extends sequelize_1.Model {
+class Plan extends sequelize_1.Model {
 }
-Role.init({
-    id: {
+Plan.init({
+    planId: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    roleId: {
+    languageId: {
         type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
-        autoIncrement: false,
     },
-    roleName: {
+    planName: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    planSubtitle: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    planPrice: {
+        type: sequelize_1.DataTypes.DECIMAL(),
+        allowNull: false,
+    },
+    planDuration: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    planDesc: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: false,
+    },
+    status: {
+        type: sequelize_1.DataTypes.ENUM('Active', 'Deactive'),
+        allowNull: false,
+    },
+    isLivePlan: {
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
     dateCreated: {
@@ -33,8 +55,8 @@ Role.init({
     },
 }, {
     sequelize: db_1.default,
-    tableName: 'role',
-    modelName: 'role',
+    tableName: 'plans',
+    modelName: 'plan',
     timestamps: false,
 });
-exports.default = Role;
+exports.default = Plan;

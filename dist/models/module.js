@@ -5,23 +5,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
-class Role extends sequelize_1.Model {
+class Moduless extends sequelize_1.Model {
 }
-Role.init({
-    id: {
+Moduless.init({
+    moduleId: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    roleId: {
+    languageId: {
         type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
-        autoIncrement: false,
     },
-    roleName: {
+    levelId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    lessonId: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
+    },
+    moduleName: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    numberOfQuestions: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    difficulty: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    mode: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    questionSet: {
+        type: sequelize_1.DataTypes.JSON,
+        allowNull: true,
     },
     dateCreated: {
         type: sequelize_1.DataTypes.DATE,
@@ -33,8 +55,8 @@ Role.init({
     },
 }, {
     sequelize: db_1.default,
-    tableName: 'role',
-    modelName: 'role',
+    tableName: "modules",
+    modelName: "moduless",
     timestamps: false,
 });
-exports.default = Role;
+exports.default = Moduless;

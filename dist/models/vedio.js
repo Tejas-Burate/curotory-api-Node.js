@@ -5,21 +5,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
-class Role extends sequelize_1.Model {
+class Video extends sequelize_1.Model {
 }
-Role.init({
-    id: {
+Video.init({
+    videoId: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    roleId: {
+    languageId: {
         type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
-        autoIncrement: false,
     },
-    roleName: {
+    levelId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    lessonId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    videoName: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    videoThumbnail: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    videoFileName: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
@@ -33,8 +47,8 @@ Role.init({
     },
 }, {
     sequelize: db_1.default,
-    tableName: 'role',
-    modelName: 'role',
+    tableName: 'videos',
+    modelName: 'video',
     timestamps: false,
 });
-exports.default = Role;
+exports.default = Video;
