@@ -3,6 +3,7 @@ import sequelize from "../config/db";
 import Language from "../models/language";
 import multer from "multer";
 import moment from "moment-timezone";
+import { Op } from "sequelize";
 import { currentDateTime } from "../config/tz";
 
 const storage = multer.diskStorage({
@@ -141,13 +142,73 @@ const getDropdownLanguageList = async (req: Request, res: Response) => {
   }
 };
 
-// const getDataTableForLanguageList = async (req: Request, res: Reaponse) => {
-//   try {
-//   } catch (error) {
-//     console.log("error", error);
-//     res.status(500).json({ status: 500, error: "500", message: "" });
-//   }
-// };
+const getDataTableForLanguageList = async (req: Request, res: Response) => {
+  const { search, length, start, order } = req.body;
+  const recordPerPage = length;
+  const searchData = search.value;
+  let searchQuery: any = {};
+
+  if (searchData) {
+    const regex = new RegExp(searchData, "i");
+    searchQuery = {
+      [Op.or]: [
+        {
+          languageName: {
+            [Op.like]: `%${searchData}%`, // Perform a case-insensitive search
+          },
+        },
+      ],
+    };
+  }
+
+  const totalRecords = await Language.count({ where: searchQuery });
+  const totalPages = Math.ceil(totalRecords / length);
+
+  // Define the sorting order directly in the Sequelize query
+  const sortColumnIndex = order[0].column;
+  const sortColumnDir = order[0].dir;
+  let sort: [string, string][] = [];
+
+  // Determine the field to sort based on sortColumnIndex
+  switch (sortColumnIndex) {
+    case 0:
+      sort = [["languageName", sortColumnDir]];
+      break;
+    // case 1:
+    //   sort = [['columnName', sortColumnDir]];
+    //   break;
+    default:
+      // If no valid sortColumnIndex is provided, you can set a default sorting option here.
+      sort = [["createdAt", "asc"]];
+      break;
+  }
+
+  const queryOptions = {
+    where: searchQuery,
+    offset: Number(start),
+    limit: Number(length),
+    order: sort, // Apply sorting here
+  };
+
+  const lang = await Language.findAll();
+
+  const result = {
+    data: lang.map((l: any) => ({
+      languageId: l.languageId,
+      languageName: l.languageName,
+      languageObj: JSON.parse(l.languageObj),
+      languageImage: l.languageImage,
+    })),
+  };
+
+  res.status(200).json({
+    recordPerPage,
+    recordsTotal: totalRecords,
+    recordsFiltered: totalRecords,
+    totalPages,
+    data: result,
+  });
+};
 
 export {
   getAllLanguageList,
@@ -155,4 +216,5 @@ export {
   upload,
   uploadImage,
   createLanguage,
+  getDataTableForLanguageList,
 };
